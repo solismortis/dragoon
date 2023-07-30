@@ -5,6 +5,7 @@ use."""
 
 # TODO: Resume still fails
 
+from datetime import datetime
 import os
 
 import gymnasium as gym
@@ -72,6 +73,7 @@ def make_env(env_id, idx, run_name, gamma):
 
 
 if __name__ == "__main__":
+    start = datetime.now()
 
     # Even if there is no loading, we don't want prev runs to be
     # overwritten
@@ -148,7 +150,8 @@ if __name__ == "__main__":
         print(f"resumed at update {starting_update}")
 
     for update in range(starting_update, num_updates + 1):
-        print(f"update {update}")
+        print(f"update: {update}; time passed: "
+              f"{datetime.now() - start}")
 
         # Annealing the rate if instructed to do so.
         if ANNEAL_LR:
