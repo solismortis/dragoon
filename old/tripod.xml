@@ -1,0 +1,115 @@
+<mujoco model="tripod">
+
+    <compiler meshdir="assets/" angle="radian"/>
+    
+    <default>
+        <joint damping="16"/>
+        <motor ctrlrange="-.7 .7" ctrllimited="true"/>
+        
+        <default class="leg1">
+            <geom rgba="1 0 0 1"/>
+        </default>
+        
+        <default class="leg2">
+            <geom rgba="0 1 0 1"/>
+        </default>
+        
+        <default class="leg3">
+            <geom rgba="0 0 1 1"/>
+        </default>
+        
+    </default>
+    
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2=".6 .8 1"
+                 width="256" height="256"/>
+        <mesh name="base" file="base.stl"/>
+        <mesh name="part1" file="part1.stl"/>
+        <mesh name="part2" file="part2.stl"/>
+        <mesh name="part3" file="part3.stl"/>
+        <mesh name="part4" file="part4.stl"/>
+    </asset>
+    
+    <worldbody>
+        <body name="base">
+            <geom name="baseg" type="mesh" mesh="base" density="200" rgba="1 1 1 1"/>
+            <body>
+                <geom type="mesh" mesh="part1" pos="0 -0.132 -0.1" class="leg1"/>
+                <joint name="part1_1j" type="hinge" pos="0 -0.132 -0.1" limited="true" range="-0.8727 0.8727"/>
+                <body>
+                    <geom type="mesh" mesh="part2" pos="0 -0.132 -0.204" class="leg1"/>
+                    <joint name="part2_1j" type="hinge" pos="0 -0.132 -0.204" axis="1 0 0" limited="true" range="-0.261799 1.5708"/>
+                    <body>
+                        <geom type="mesh" mesh="part3" pos="0 -0.335 -0.2" class="leg1"/>
+                        <joint name="part3_1j" type="hinge" pos="0 -0.335 -0.2" axis="0 1 0"/>
+                        <body>
+                            <geom type="mesh" mesh="part4" pos="0 -0.57 -0.195" class="leg1"/>
+                            <joint name="part4_1j" type="hinge" pos="0 -0.57 -0.195" axis="1 0 0" limited="true" range="-0.872665 2.26893"/>
+                            <!--site name="touch_site_1" pos="0 -1.15 -0.29" size="0.05 0.05 0.05"/-->
+                        </body>
+                    </body>
+                </body>
+            </body>
+            
+            <body>
+                <geom type="mesh" mesh="part1" pos="0.11432 0.066 -0.1" euler="0 0 2.0944" class="leg2"/>
+                <joint name="part1_2j" type="hinge" pos="0.11432 0.066 -0.1" limited="true" range="-0.8727 0.8727"/>
+                <body>
+                    <geom type="mesh" mesh="part2" pos="0.11432 0.066 -0.204" euler="0 0 2.0944" class="leg2"/>
+                    <joint name="part2_2j" type="hinge" pos="0.11432 0.066 -0.204" axis="-0.5 0.86603 0" limited="true" range="-0.261799 1.5708"/>
+                    <body>
+                        <geom type="mesh" mesh="part3" pos="0.29012 0.1675 -0.2" euler="0 0 2.0944" class="leg2"/>
+                        <joint name="part3_2j" type="hinge" pos="0.29012 0.1675 -0.2" axis="0.86603 0.5 0"/>
+                        <body>
+                            <geom type="mesh" mesh="part4" pos="0.49363 0.285 -0.195" euler="0 0 2.0944" class="leg2"/>
+                            <joint name="part4_2j" type="hinge" pos="0.49363 0.285 -0.195" axis="-0.5 0.86603 0" limited="true" range="-0.872665 2.26893"/>
+                            <!--site name="touch_site_2" pos="0.9786 0.565 -0.29" size="0.05 0.05 0.05"/-->
+                        </body>
+                    </body>
+                </body>
+            </body>
+            
+            <body>
+                <geom type="mesh" mesh="part1" pos="-0.11432 0.066 -0.1" euler="0 0 -2.0944" class="leg3"/>
+                <joint name="part1_3j" type="hinge" pos="-0.11432 0.066 -0.1" limited="true" range="-0.8727 0.8727"/>
+                <body>
+                    <geom type="mesh" mesh="part2" pos="-0.11432 0.066 -0.204" euler="0 0 -2.0944" class="leg3"/>
+                    <joint name="part2_3j" type="hinge" pos="-0.11432 0.066 -0.204" axis="-0.5 -0.86603 0" limited="true" range="-0.261799 1.5708"/>
+                    <body>
+                        <geom type="mesh" mesh="part3" pos="-0.29012 0.1675 -0.2" euler="0 0 -2.0944" class="leg3"/>
+                        <joint name="part3_3j" type="hinge" pos="-0.29012 0.1675 -0.2" axis="-0.86603 0.5 0"/>
+                        <body>
+                            <geom type="mesh" mesh="part4" pos="-0.49363 0.285 -0.195" euler="0 0 -2.0944" class="leg3"/>
+                            <joint name="part4_3j" type="hinge" pos="-0.49363 0.285 -0.195" axis="-0.5 -0.86603 0" limited="true" range="-0.872665 2.26893"/>
+                            <!--site name="touch_site_3" pos="-0.9786 0.565 -0.29" size="0.05 0.05 0.05"/-->
+                        </body>
+                    </body>
+                </body>
+            </body>
+            
+        </body>
+    </worldbody>
+    
+    <!--sensor>
+        <touch site="touch_site_1"/>
+        <touch site="touch_site_2"/>
+        <touch site="touch_site_3"/>
+    </sensor-->
+    
+    <actuator>
+        <motor name="part1_1j" gear="100" joint="part1_1j"/>
+        <motor name="part2_1j" gear="200" joint="part2_1j"/>
+        <motor name="part3_1j" gear="100" joint="part3_1j"/>
+        <motor name="part4_1j" gear="200" joint="part4_1j"/>
+        
+        <motor name="part1_2j" gear="100" joint="part1_2j"/>
+        <motor name="part2_2j" gear="200" joint="part2_2j"/>
+        <motor name="part3_2j" gear="100" joint="part3_2j"/>
+        <motor name="part4_2j" gear="200" joint="part4_2j"/>
+        
+        <motor name="part1_3j" gear="100" joint="part1_3j"/>
+        <motor name="part2_3j" gear="200" joint="part2_3j"/>
+        <motor name="part3_3j" gear="100" joint="part3_3j"/>
+        <motor name="part4_3j" gear="200" joint="part4_3j"/>
+    </actuator>
+</mujoco>

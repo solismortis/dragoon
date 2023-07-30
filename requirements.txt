@@ -1,0 +1,6 @@
+dm_control==1.0.12
+gymnasium==0.28.1
+numpy==1.21.2
+opencv_python==4.7.0.72
+Shimmy==1.1.0
+torch==1.11.0
