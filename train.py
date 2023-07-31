@@ -21,8 +21,8 @@ from agent import Agent
 ENV_ID = "dragoon"
 
 SAVE = True
-LOAD = False
-LOAD_UPDATE = 488  # The number of the update to load
+LOAD = True
+LOAD_UPDATE = 18300  # Update number to load
 ANNEAL_LR = True
 CHECKPOINT_PERIOD = 100  # In updates. Small value can generate
 # gigabytes of data
@@ -73,7 +73,7 @@ def make_env(env_id, idx, run_name, gamma):
 
 
 if __name__ == "__main__":
-    start = datetime.now()
+    starttime = datetime.now()
 
     # Even if there is no loading, we don't want prev runs to be
     # overwritten
@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
     for update in range(starting_update, num_updates + 1):
         print(f"update: {update}; time passed: "
-              f"{datetime.now() - start}")
+              f"{datetime.now() - starttime}")
 
         # Annealing the rate if instructed to do so.
         if ANNEAL_LR:
