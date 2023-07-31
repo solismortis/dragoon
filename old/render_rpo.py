@@ -1,5 +1,3 @@
-# TODO: Did not find a way not to render sites
-
 import os
 import re
 

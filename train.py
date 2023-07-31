@@ -21,7 +21,7 @@ from agent import Agent
 ENV_ID = "dragoon"
 
 SAVE = True
-LOAD = True
+LOAD = False
 LOAD_UPDATE = 18300  # Update number to load
 ANNEAL_LR = True
 CHECKPOINT_PERIOD = 100  # In updates. Small value can generate
