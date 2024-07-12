@@ -4,8 +4,6 @@ program. Training is the revamped RPO from CleanRL. The new
 version is made using dm_control's logic, while the old is 
 xml-based. The mesh is low poly to make simulations fast.
 
-Some video results are expected to be posted here: https://www.youtube.com/@melanol3124/videos
-
 Python 3.10.
 
 https://github.com/Melanol/dragoon/assets/33939307/cee816b4-b0b6-44b8-b691-2c3da1a4bd2e
