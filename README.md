@@ -5,4 +5,5 @@ version is made using dm_control's logic, while the old is
 xml-based.
 
 Python 3.10.20.  I believe Python above 3.12 won't work because of dm_control.
+Probably need to run pip install mujoco before requirements.txt.
 Tested only in Ubuntu.
