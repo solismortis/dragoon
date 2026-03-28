@@ -8,4 +8,4 @@ Python 3.10.20.  I believe Python above 3.12 won't work because of dm_control.
 Probably need to run pip install mujoco before requirements.txt.
 Tested only in Ubuntu.
 
-https://github.com/user-attachments/assets/06687a5d-a67f-42df-848c-3cb4a7cdc381
+[demo.webm](https://github.com/user-attachments/assets/c07ce683-7bcd-4526-8263-9cbf616f431c)
