@@ -4,8 +4,11 @@ program. Training is the revamped RPO from CleanRL. The new
 version is made using dm_control's logic, while the old is 
 xml-based.
 
-Python 3.10.20.  I believe Python above 3.12 won't work because of dm_control.
-Probably need to run pip install mujoco before requirements.txt.
-Tested only in Ubuntu.
+Warning! The libraries used demand specific versions of other libraries, especially dm_control.
+Deviating hard from requirements.txt and versions specified in this README may result in failure.
+
+Python 3.12. dm_control won't work on a newer Python version.
+Ubuntu 24.04 LTS.
+NVIDIA driver metapackage from nvidia-driver-580.
 
 [demo.webm](https://github.com/user-attachments/assets/c07ce683-7bcd-4526-8263-9cbf616f431c)
