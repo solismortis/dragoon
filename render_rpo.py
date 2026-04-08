@@ -15,7 +15,7 @@ from agent import Agent
 from tripod_env import env
 
 
-VIDEO_NAME = f'{datetime.datetime.now()}.mp4'
+VIDEO_NAME = f'{datetime.datetime.now():%Y-%m-%d %H:%M}.mp4'
 LENGTH = 1000
 WIDTH = 600
 HEIGHT = 480
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
         # Normalized reward
         cv2.putText(img=frame,
-                    text=f'nr: {str(round(reward[0], 2))}',
+                    text=f'normalized reward: {str(round(reward[0], 2))}',
                     org=(50, 50),
                     fontFace=font, fontScale=1,
                     color=(0, 255, 255),
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 
         # Frame
         cv2.putText(img=frame,
-                    text=f'f: {step}',
+                    text=f'frame: {step}',
                     org=(50, 100),
                     fontFace=font, fontScale=1,
                     color=(0, 255, 255),
