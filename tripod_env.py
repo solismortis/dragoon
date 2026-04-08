@@ -261,7 +261,15 @@ class Stand(composer.Task):
         else:
             self._creature.set_pose(physics, position=(0, 0, 0))
 
+    # def get_reward(self, physics):
+    #     """This is the latest proper reward I used"""
+    #     z = physics.named.data.xpos['unnamed_model/base_b'][2]
+    #     reward = -abs(z - PERFECT_Z) + 1  # Normalization, I guess
+    #     # print(reward)
+    #     return reward
+
     def get_reward(self, physics):
+        """Experimental reward"""
         z = physics.named.data.xpos['unnamed_model/base_b'][2]
         reward = -abs(z - PERFECT_Z) + 1
         # print(reward)
