@@ -1,7 +1,7 @@
 """This here is to test the env. You can also just run the env,
 but this includes actions and making a video."""
 
-import datetime
+from datetime import datetime
 
 import numpy as np
 import cv2
@@ -9,7 +9,7 @@ import cv2
 from tripod_env import env
 
 
-VIDEO_NAME = f'{datetime.datetime.now()}.mp4'
+VIDEO_NAME = f'{datetime.now():%Y-%m-%d %H:%M}.mp4'
 LENGTH = 500
 WIDTH = 600
 HEIGHT = 480

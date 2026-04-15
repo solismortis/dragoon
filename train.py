@@ -3,6 +3,7 @@ process. Run render_nn.py any moment after an autosave to make a
 video of how it is doing. Run 'nvidia-smi' to see your CUDA device
 use."""
 
+# Do not count updates from 0: CleanRL starts from 1
 # TODO: Resume still fails
 
 from datetime import datetime
@@ -22,7 +23,7 @@ ENV_ID = "dragoon"
 
 SAVE = True
 LOAD = False
-LOAD_UPDATE = 18300  # Update number to load
+LOAD_UPDATE = 0  # Update number to load
 ANNEAL_LR = True
 CHECKPOINT_PERIOD = 100  # In updates. Small value can generate
 # gigabytes of data
@@ -74,45 +75,26 @@ def make_env(env_id, idx, run_name, gamma):
 
 if __name__ == "__main__":
     starttime = datetime.now()
-
-    # Even if there is no loading, we don't want prev runs to be
-    # overwritten
     path = f"runs/{ENV_ID}"
-    if os.path.exists(path):
-        dir_list = os.listdir(path)
-        if dir_list:
-            dir_list.sort(key=int)
-            last_run_id = int(dir_list[-1])
-            new_run_id = last_run_id + 1
-            run_name = str(new_run_id)
-        else:
-            run_name = "1"
-    else:
-        run_name = "1"
+    run_name = f'{starttime:%Y-%m-%d %H:%M}'
 
     writer = SummaryWriter(f"runs/{ENV_ID}/{run_name}")
-
-    device = torch.device(
-        "cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f'device: {device}')
 
     # env setup
     envs = gym.vector.SyncVectorEnv(
-        [make_env(ENV_ID, i, run_name, GAMMA) for i in
-         range(N_ENVS)]
+        [make_env(ENV_ID, i, run_name, GAMMA) for i in range(N_ENVS)]
     )
     assert isinstance(envs.single_action_space,
         gym.spaces.Box), "only continuous action space is supported"
 
     agent = Agent(device, envs, RPO_ALPHA).to(device)
-    optimizer = optim.Adam(agent.parameters(), lr=LEARNING_RATE,
-                           eps=1e-5)
+    optimizer = optim.Adam(agent.parameters(), lr=LEARNING_RATE, eps=1e-5)
 
     # ALGO Logic: Storage setup.
-    obs = torch.zeros(
-        (N_STEPS, N_ENVS) + envs.single_observation_space.shape).to(
-        device)
-    actions = torch.zeros(
-        (N_STEPS, N_ENVS) + envs.single_action_space.shape).to(device)
+    obs = torch.zeros((N_STEPS, N_ENVS) + envs.single_observation_space.shape).to(device)
+    actions = torch.zeros((N_STEPS, N_ENVS) + envs.single_action_space.shape).to(device)
     logprobs = torch.zeros((N_STEPS, N_ENVS)).to(device)
     rewards = torch.zeros((N_STEPS, N_ENVS)).to(device)
     dones = torch.zeros((N_STEPS, N_ENVS)).to(device)
@@ -127,31 +109,30 @@ if __name__ == "__main__":
 
     starting_update = 1
 
-    if LOAD:
-        path = f"runs/{ENV_ID}/{last_run_id}"
-        dir_list = os.listdir(path)
-
-        checkpoint = torch.load(f"runs/{ENV_ID}"
-            f"/{last_run_id}/checkpoint_{LOAD_UPDATE}.tar")
-        agent.load_state_dict(checkpoint['model_state_dict'])
-        agent.train()
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-
-        obs = checkpoint['obs']
-        actions = checkpoint['actions']
-        logprobs = checkpoint['logprobs']
-        rewards = checkpoint['rewards']
-        dones = checkpoint['dones']
-        values = checkpoint['values']
-
-        starting_update = checkpoint['update'] + 1
-        global_step = checkpoint['global_step'] + 1
-        # print(optimizer.state_dict())
-        print(f"resumed at update {starting_update}")
+    # if LOAD:
+    #     path = f"runs/{ENV_ID}/{last_run_id}"
+    #     dir_list = os.listdir(path)
+    #
+    #     checkpoint = torch.load(f"runs/{ENV_ID}"
+    #         f"/{last_run_id}/checkpoint_{LOAD_UPDATE}.tar")
+    #     agent.load_state_dict(checkpoint['model_state_dict'])
+    #     agent.train()
+    #     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    #
+    #     obs = checkpoint['obs']
+    #     actions = checkpoint['actions']
+    #     logprobs = checkpoint['logprobs']
+    #     rewards = checkpoint['rewards']
+    #     dones = checkpoint['dones']
+    #     values = checkpoint['values']
+    #
+    #     starting_update = checkpoint['update'] + 1
+    #     global_step = checkpoint['global_step'] + 1
+    #     # print(optimizer.state_dict())
+    #     print(f"resumed at update {starting_update}")
 
     for update in range(starting_update, num_updates + 1):
-        print(f"update: {update}; time passed: "
-              f"{datetime.now() - starttime}")
+        print(f"update: {update}; time passed: {datetime.now() - starttime}")
 
         # Annealing the rate if instructed to do so.
         if ANNEAL_LR:

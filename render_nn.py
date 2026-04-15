@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import os
 import re
 
@@ -15,7 +15,8 @@ from agent import Agent
 from tripod_env import env
 
 
-VIDEO_NAME = f'{datetime.datetime.now():%Y-%m-%d %H:%M}.mp4'
+CHECKPOINT_N = 200  # If provided and exists, renders that specific checkpoint
+VIDEO_NAME = f'{datetime.now():%Y-%m-%d %H:%M}.mp4'
 LENGTH = 1000
 WIDTH = 600
 HEIGHT = 480
@@ -52,14 +53,10 @@ if __name__ == "__main__":
         cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (WIDTH, HEIGHT))
     font = cv2.FONT_HERSHEY_SIMPLEX
     dir_list = os.listdir(f"runs/{ENV_ID}")
-    dir_list.sort(key=int)
     try:
-        last_run_id = int(dir_list[-1])
+        run_name = sorted(dir_list)[-1]
     except IndexError:
         print('No checkpoint to load')
-        exit()
-    new_run_id = last_run_id + 1
-    run_name = str(new_run_id)
 
     device = torch.device(
         "cuda" if torch.cuda.is_available() else "cpu")
@@ -80,27 +77,28 @@ if __name__ == "__main__":
     next_obs = torch.Tensor(next_obs).to(device)
     next_done = torch.zeros(N_ENVS).to(device)
 
-    # Getting the latest update
-    path = f"runs/{ENV_ID}/{last_run_id}"
-    filenames = os.listdir(path)
-    checkpoint_filenames = []
-    for filename in filenames:
-        if filename[:10] == "checkpoint":
-            checkpoint_filenames.append(filename)
-    updates = []
-    for filename in checkpoint_filenames:
-        updates.append(re.search(r'\d+', filename).group())
-    updates.sort(key=int)
-    updates = [int(el) for el in updates]
-    try:
-        latest_update = updates[-1]
-    except IndexError:
-        print('No checkpoint to load')
-        exit()
+    path = f"runs/{ENV_ID}/{run_name}"
+    if CHECKPOINT_N and os.path.isfile(f"{path}/checkpoint_{CHECKPOINT_N}.tar"):
+        latest_update = CHECKPOINT_N
+    else:  # Getting the latest update
+        filenames = os.listdir(path)
+        checkpoint_filenames = []
+        for filename in filenames:
+            if filename[:10] == "checkpoint":
+                checkpoint_filenames.append(filename)
+        updates = []
+        for filename in checkpoint_filenames:
+            updates.append(re.search(r'\d+', filename).group())
+        updates.sort(key=int)
+        updates = [int(el) for el in updates]
+        try:
+            latest_update = updates[-1]
+        except IndexError:
+            print('No checkpoint to load')
 
     checkpoint = torch.load(f"runs/{ENV_ID}"
-        f"/{last_run_id}/checkpoint_{latest_update}.tar")
-    starting_update = checkpoint['update'] + 1
+        f"/{run_name}/checkpoint_{latest_update}.tar")
+    starting_update = checkpoint['update']
     agent.load_state_dict(checkpoint['model_state_dict'])
     agent.eval()
     print(f"resumed at update {starting_update}")
