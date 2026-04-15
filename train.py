@@ -1,5 +1,5 @@
-"""rpo_continuous. Run 'tensorboard --logdir runs' to monitor the
-process. Run render_rpo.py any moment after an autosave to make a
+"""Run 'tensorboard --logdir runs' to monitor the
+process. Run render_nn.py any moment after an autosave to make a
 video of how it is doing. Run 'nvidia-smi' to see your CUDA device
 use."""
 

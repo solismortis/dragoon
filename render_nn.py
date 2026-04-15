@@ -127,9 +127,9 @@ if __name__ == "__main__":
                                    scene_option=scene_option)
         frame = convert_rgb(frame)
 
-        # Normalized reward
+        # Reward
         cv2.putText(img=frame,
-                    text=f'normalized reward: {str(round(reward[0], 2))}',
+                    text=f'reward: {str(round(reward[0], 2))}',
                     org=(50, 50),
                     fontFace=font, fontScale=1,
                     color=(0, 255, 255),

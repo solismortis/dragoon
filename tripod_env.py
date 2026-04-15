@@ -1,6 +1,9 @@
 """Run to test the env manually. Be sure to remove time limit. If
 you don't see episodic returns, you forgot to add a time limit."""
 
+# TODO: Joints are already stiff, I guess actuators are too strong and fast
+# TODO: Add different terrain (current terrain is slippery)
+
 import numpy as np
 from dm_control import mjcf
 from dm_control import composer
@@ -8,13 +11,12 @@ from dm_control.composer.observation import observable
 from dm_control.locomotion.arenas import floors
 from dm_control import viewer
 
-TASK = 'stand'  # stand or walk
-PERFECT_Z = 1.1  # Z coord where we want our agent to be
-TIME_LIMIT = 3
+TASK = 'stand'  # Stand or walk
+PERFECT_Z = 1.1  # Z coord where we want the base to be
+TIME_LIMIT = 3  # Seconds
 if __name__ == '__main__':  # If not imported
     TIME_LIMIT = float("inf")
-N_SUBSTEPS = 10  # The number of physics substeps per control. The
-# default is 25
+N_SUBSTEPS = 10  # The number of physics substeps per control. The default is 25
 
 ASSETS_DIR = 'assets'
 TURRET = False  # For pacifists
@@ -22,8 +24,6 @@ N_LEGS = 3  # More than 6 is not recommended for this model
 RANDOM_STARTS = False
 
 random_state = np.random.RandomState(42)
-
-
 
 
 class Leg:
@@ -215,9 +215,6 @@ class CreatureObservables(composer.Observables):
 
 
 class Stand(composer.Task):
-    """Returns to go down 1st, as doing nothing is pretty
-    rewarding in this task."""
-
     def __init__(self, creature):
         self._creature = creature
         self._arena = floors.Floor()

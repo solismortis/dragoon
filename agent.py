@@ -1,5 +1,4 @@
-"""The brain."""
-
+"""The brain. Currently, rpo_continuous"""
 
 import numpy as np
 import torch

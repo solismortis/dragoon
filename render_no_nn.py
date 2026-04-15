@@ -1,5 +1,5 @@
 """This here is to test the env. You can also just run the env,
-but this includes random actions and making a video."""
+but this includes actions and making a video."""
 
 import datetime
 
