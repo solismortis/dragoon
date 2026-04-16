@@ -3,6 +3,7 @@ you don't see episodic returns, you forgot to add a time limit."""
 
 # TODO: Joints are already stiff, I guess actuators are too strong and fast
 # TODO: Add different terrain (current terrain is slippery)
+# TODO: Are the observables appropriate? Change the reward accordingly
 
 import numpy as np
 from dm_control import mjcf
@@ -258,17 +259,11 @@ class Stand(composer.Task):
         else:
             self._creature.set_pose(physics, position=(0, 0, 0))
 
-    # def get_reward(self, physics):
-    #     """This is the latest proper reward I used"""
-    #     z = physics.named.data.xpos['unnamed_model/base_b'][2]
-    #     reward = -abs(z - PERFECT_Z) + 1  # Normalization, I guess
-    #     # print(reward)
-    #     return reward
-
     def get_reward(self, physics):
         """Experimental reward"""
         z = physics.named.data.xpos['unnamed_model/base_b'][2]
-        reward = -abs(z - PERFECT_Z) + 1
+        # reward = -abs(z - PERFECT_Z) + 1
+        reward = -abs(z - PERFECT_Z)**2
         # print(reward)
         return reward
 

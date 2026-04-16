@@ -15,7 +15,7 @@ from agent import Agent
 from tripod_env import env
 
 
-CHECKPOINT_N = 200  # If provided and exists, renders that specific checkpoint
+CHECKPOINT_N = None  # If provided and exists, renders that specific checkpoint
 VIDEO_NAME = f'{datetime.now():%Y-%m-%d %H:%M}.mp4'
 LENGTH = 1000
 WIDTH = 600

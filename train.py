@@ -27,8 +27,7 @@ LOAD_UPDATE = 0  # Update number to load
 ANNEAL_LR = True
 CHECKPOINT_PERIOD = 100  # In updates. Small value can generate
 # gigabytes of data
-TOTAL_TIMESTEPS = int(1e9)  # 5-10 mil is usually enough. You can
-# manually
+TOTAL_TIMESTEPS = int(1e9)  # 5-10 mil is usually enough. You can manually
 # terminate the process with CTRL+C at any time, and it will be
 # saved, just be sure you saw "saved" recently.
 
@@ -235,16 +234,13 @@ if __name__ == "__main__":
 
                 # Policy loss
                 pg_loss1 = -mb_advantages * ratio
-                pg_loss2 = -mb_advantages * torch.clamp(ratio,
-                                                        1 - CLIP_COEF,
-                                                        1 + CLIP_COEF)
+                pg_loss2 = -mb_advantages * torch.clamp(ratio, 1 - CLIP_COEF, 1 + CLIP_COEF)
                 pg_loss = torch.max(pg_loss1, pg_loss2).mean()
 
                 # Value loss
                 newvalue = newvalue.view(-1)
                 if CLIP_VLOSS:
-                    v_loss_unclipped = (newvalue - b_returns[
-                        mb_inds]) ** 2
+                    v_loss_unclipped = (newvalue - b_returns[mb_inds]) ** 2
                     v_clipped = b_values[mb_inds] + torch.clamp(
                         newvalue - b_values[mb_inds],
                         -CLIP_COEF, CLIP_COEF,
