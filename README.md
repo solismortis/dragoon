@@ -11,4 +11,6 @@ Python 3.12. dm_control won't work on a newer Python version.
 Ubuntu 24.04 LTS. A newer Ubuntu version may block some libraries.
 NVIDIA driver metapackage from nvidia-driver-580.
 
+[stops moving at max heigh.webm](https://github.com/user-attachments/assets/4a0d1831-03e8-453f-8c4b-1d0606fbb958)
+
 [demo.webm](https://github.com/user-attachments/assets/c07ce683-7bcd-4526-8263-9cbf616f431c)
