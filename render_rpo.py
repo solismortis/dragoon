@@ -1,5 +1,6 @@
 import datetime
 import os
+os.environ['MUJOCO_GL'] = 'egl'
 import re
 
 import cv2
