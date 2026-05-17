@@ -5,6 +5,9 @@ you don't see episodic returns, you forgot to add a time limit."""
 # TODO: Add different terrain (current terrain is slippery)
 # TODO: Are the observables appropriate? Change the reward accordingly
 
+import os
+os.environ['MUJOCO_GL'] = 'egl'
+
 import numpy as np
 from dm_control import mjcf
 from dm_control import composer

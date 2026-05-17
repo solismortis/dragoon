@@ -1,6 +1,9 @@
 """This here is to test the env. You can also just run the env,
 but this includes actions and making a video."""
 
+import os
+os.environ['MUJOCO_GL'] = 'egl'
+
 from datetime import datetime
 
 import numpy as np
